@@ -30,6 +30,12 @@ public class VacancyService {
                 .toList();
     }
 
+    public List<VacancyDto> getMiddleVacancies() {
+        return vacancies.values().stream()
+                .filter(v -> v.getTitle().toLowerCase().contains("middle"))
+                .toList();
+    }
+
     public VacancyDto get(String id) {
         return vacancies.get(id);
     }
