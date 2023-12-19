@@ -82,9 +82,17 @@ public class VacanciesBot extends TelegramLongPollingBot {
     private void showVacancyDescription(String id, Update update) throws TelegramApiException {
         SendMessage sendMessage = new SendMessage();
         VacancyDto vacancy = vacancyService.get(id);
-        String description = vacancy.getShortDescription();
+        String salaryText = vacancy.getSalary().equals("-") ? "Not specified" : vacancy.getSalary();
         sendMessage.setChatId(update.getCallbackQuery().getMessage().getChatId());
-        sendMessage.setText(description);
+        sendMessage.enableHtml(true);
+        sendMessage.setText(
+                "<b>" + vacancy.getTitle() + "</b>" + "\n\n" +
+                "<b>Short description:</b> " + vacancy.getShortDescription() + "\n\n" +
+                "<b>Description:</b> " + vacancy.getLongDescription() + "\n\n" +
+                "<b>Company:</b> " + vacancy.getCompany() + "\n\n" +
+                "<b>Salary:</b> " + salaryText + "\n\n" +
+                "Navigate the link for more details: " + vacancy.getLink()
+        );
         sendMessage.setReplyMarkup(getBackToVacanciesMenu());
         execute(sendMessage);
     }
@@ -119,7 +127,7 @@ public class VacanciesBot extends TelegramLongPollingBot {
         List<InlineKeyboardButton> row = new ArrayList<>();
         List<VacancyDto> vacancies = vacancyService.getJuniorVacancies();
 
-        for (VacancyDto vacancy: vacancies) {
+        for (VacancyDto vacancy : vacancies) {
             InlineKeyboardButton vacancyButton = new InlineKeyboardButton();
             vacancyButton.setText(vacancy.getTitle());
             vacancyButton.setCallbackData("vacancyId=" + vacancy.getId());
