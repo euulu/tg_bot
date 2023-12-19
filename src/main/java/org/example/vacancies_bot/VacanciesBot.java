@@ -180,16 +180,14 @@ public class VacanciesBot extends TelegramLongPollingBot {
 
     private ReplyKeyboard getSeniorVacanciesMenu() {
         List<InlineKeyboardButton> row = new ArrayList<>();
+        List<VacancyDto> vacancies = vacancyService.getSeniorVacancies();
 
-        InlineKeyboardButton maVacancy = new InlineKeyboardButton();
-        maVacancy.setText("Senior Java dev at MA");
-        maVacancy.setCallbackData("vacancyId=5");
-        row.add(maVacancy);
-
-        InlineKeyboardButton googleVacancy = new InlineKeyboardButton();
-        googleVacancy.setText("Senior Java dev at Google");
-        googleVacancy.setCallbackData("vacancyId=6");
-        row.add(googleVacancy);
+        for (VacancyDto vacancy : vacancies) {
+            InlineKeyboardButton vacancyButton = new InlineKeyboardButton();
+            vacancyButton.setText(vacancy.getTitle());
+            vacancyButton.setCallbackData("vacancyId" + vacancy.getId());
+            row.add(vacancyButton);
+        }
 
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
         keyboard.setKeyboard(List.of(row));
