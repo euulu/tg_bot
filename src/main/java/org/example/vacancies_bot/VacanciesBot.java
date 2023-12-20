@@ -108,6 +108,11 @@ public class VacanciesBot extends TelegramLongPollingBot {
         backToStartButton.setCallbackData("backToStartMenu");
         row.add(backToStartButton);
 
+        InlineKeyboardButton getChatGptButton = new InlineKeyboardButton();
+        getChatGptButton.setText("Get cover letter");
+        getChatGptButton.setUrl("https://chat.openai.com");
+        row.add(getChatGptButton);
+
         return new InlineKeyboardMarkup(List.of(row));
     }
 
