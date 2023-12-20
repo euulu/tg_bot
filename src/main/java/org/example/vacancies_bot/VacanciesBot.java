@@ -123,20 +123,8 @@ public class VacanciesBot extends TelegramLongPollingBot {
     }
 
     private ReplyKeyboard getJuniorVacanciesMenu() {
-        List<InlineKeyboardButton> row = new ArrayList<>();
         List<VacancyDto> vacancies = vacancyService.getJuniorVacancies();
-
-        for (VacancyDto vacancy : vacancies) {
-            InlineKeyboardButton vacancyButton = new InlineKeyboardButton();
-            vacancyButton.setText(vacancy.getTitle());
-            vacancyButton.setCallbackData("vacancyId=" + vacancy.getId());
-            row.add(vacancyButton);
-        }
-
-        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
-        keyboard.setKeyboard(List.of(row));
-
-        return keyboard;
+        return getVacanciesMenu(vacancies);
     }
 
     private void showMiddleVacancies(Update update) throws TelegramApiException {
@@ -151,20 +139,8 @@ public class VacanciesBot extends TelegramLongPollingBot {
     }
 
     private ReplyKeyboard getMiddleVacanciesMenu() {
-        List<InlineKeyboardButton> row = new ArrayList<>();
         List<VacancyDto> vacancies = vacancyService.getMiddleVacancies();
-
-        for (VacancyDto vacancy : vacancies) {
-            InlineKeyboardButton vacancyButton = new InlineKeyboardButton();
-            vacancyButton.setText(vacancy.getTitle());
-            vacancyButton.setCallbackData("vacancyId" + vacancy.getId());
-            row.add(vacancyButton);
-        }
-
-        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
-        keyboard.setKeyboard(List.of(row));
-
-        return keyboard;
+        return getVacanciesMenu(vacancies);
     }
 
     private void showSeniorVacancies(Update update) throws TelegramApiException {
@@ -179,13 +155,17 @@ public class VacanciesBot extends TelegramLongPollingBot {
     }
 
     private ReplyKeyboard getSeniorVacanciesMenu() {
-        List<InlineKeyboardButton> row = new ArrayList<>();
         List<VacancyDto> vacancies = vacancyService.getSeniorVacancies();
+        return getVacanciesMenu(vacancies);
+    }
+
+    private ReplyKeyboard getVacanciesMenu(List<VacancyDto> vacancies) {
+        List<InlineKeyboardButton> row = new ArrayList<>();
 
         for (VacancyDto vacancy : vacancies) {
             InlineKeyboardButton vacancyButton = new InlineKeyboardButton();
             vacancyButton.setText(vacancy.getTitle());
-            vacancyButton.setCallbackData("vacancyId" + vacancy.getId());
+            vacancyButton.setCallbackData("vacancyId=" + vacancy.getId());
             row.add(vacancyButton);
         }
 
